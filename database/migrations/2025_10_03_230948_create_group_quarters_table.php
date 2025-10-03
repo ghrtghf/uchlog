@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('school_days', function (Blueprint $table) {
+        Schema::create('group_quarters', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->unique();
-            $table->enum('status', ['normal', 'holiday', 'shortened', 'cancelled', 'remote'])->default('normal');
-            $table->foreignId('timetable_id')->nullable()->constrained('timetables')->nullOnDelete();
+            $table->foreignId('quarter_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('group_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('default_timetable_id')->constrained('timetables')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('school_days');
+        Schema::dropIfExists('group_quarters');
     }
 };
